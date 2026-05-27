@@ -1,7 +1,5 @@
 # 👋🏾Hi there!!&nbsp;&nbsp; I'm CKentarou.
 
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=CKentarou&show_icons=true&theme=transparent) &nbsp; ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=CKentarou&hide_progress=true)
-
 ## 🚀 **About Me**
 🔭 **Currently Working On**  
 I am working as a mentor at a programming school, helping students learn coding and web development.  

@@ -14,14 +14,17 @@ JST = timezone(timedelta(hours=9))
 # "Uptime" counts from when I started programming (around July 2022).
 UPTIME_SINCE = date(2022, 7, 1)
 
-# Same ramp the ASCII art was generated with: sparse -> dense.
-RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+# Same ramp the ASCII art was generated with: sparse -> dense
+# (ordered by measured glyph ink coverage in Menlo).
+RAMP = " .,:!;)?[*uoVXA9DQBM0N"
+# The art is colored in this many brightness steps, from art_lo to art_hi.
+ART_LEVELS = 8
 
 # Layout (px)
 # Transparent background, so the page (GitHub) color shows through.
 PAD = 6
 GAP = 30
-ART_CELL_W, ART_LINE_H, ART_FONT = 5.8, 11.6, 9.8
+ART_CELL_W, ART_LINE_H, ART_FONT = 4.6, 9.2, 7.8
 INFO_CELL_W, INFO_LINE_H, INFO_FONT = 9.4, 19.5, 15.5
 BLANK_H = 10
 INFO_COLS = 54
@@ -31,12 +34,12 @@ FONT_STACK = ("ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, "
 
 THEMES = {
     "dark": {
-        "art1": "#3b3a5a", "art2": "#8d84c7", "art3": "#ebe7ff",
+        "art": "ascii_art_dark.txt", "art_lo": "#30363d", "art_hi": "#f0f6fc",
         "text": "#c9d1d9", "dim": "#4d5561",
         "key": "#d2a8ff", "value": "#a5d6ff", "accent": "#f2e56b",
     },
     "light": {
-        "art1": "#d6d3ea", "art2": "#8b80c4", "art3": "#3f3480",
+        "art": "ascii_art_light.txt", "art_lo": "#d1d9e0", "art_hi": "#1f2328",
         "text": "#24292f", "dim": "#b3bcc6",
         "key": "#8250df", "value": "#0a3069", "accent": "#9a6700",
     },
@@ -110,11 +113,13 @@ def info_line(item):
 
 
 def art_tier(ch):
-    i = RAMP.find(ch)
-    if i < 0:
-        return "art2"
-    t = i / (len(RAMP) - 1)
-    return "art1" if t < 0.3 else "art2" if t < 0.82 else "art3"
+    i = max(RAMP.find(ch), 1)
+    return f"a{round((i - 1) / (len(RAMP) - 2) * (ART_LEVELS - 1))}"
+
+
+def mix(c1, c2, t):
+    a, b = (tuple(int(c[i:i + 2], 16) for i in (1, 3, 5)) for c in (c1, c2))
+    return "#" + "".join(f"{round(x + (y - x) * t):02x}" for x, y in zip(a, b))
 
 
 def art_line(line):
@@ -137,7 +142,9 @@ def text_el(cls, x, y, n_chars, cell_w, body):
             f'lengthAdjust="spacing">{body}</text>')
 
 
-def render(theme, art, info):
+def render(theme, info):
+    path = ROOT / THEMES[theme]["art"]
+    art = [l.rstrip() for l in path.read_text(encoding="utf-8").splitlines()]
     art_cols = max(len(l) for l in art)
     art_w, art_h = art_cols * ART_CELL_W, len(art) * ART_LINE_H
     heights = [BLANK_H if item[0] == "blank" else INFO_LINE_H for item in info]
@@ -161,8 +168,9 @@ def render(theme, art, info):
         y += h
 
     c = THEMES[theme]
-    colors = "\n".join(f".{k}{{fill:{c[k]}}}" for k in
-                       ("art1", "art2", "art3", "text", "dim", "key", "value", "accent"))
+    colors = "\n".join(
+        [f".a{i}{{fill:{mix(c['art_lo'], c['art_hi'], i / (ART_LEVELS - 1))}}}" for i in range(ART_LEVELS)]
+        + [f".{k}{{fill:{c[k]}}}" for k in ("text", "dim", "key", "value", "accent")])
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{width:.0f}" height="{height:.0f}" viewBox="0 0 {width:.0f} {height:.0f}" xml:space="preserve">
 <style>
@@ -177,10 +185,9 @@ text{{font-family:{FONT_STACK};white-space:pre}}
 
 
 def main():
-    art = [l.rstrip() for l in (ROOT / "ascii_art.txt").read_text(encoding="utf-8").splitlines()]
     info = build_info(datetime.now(JST).date())
     for theme in THEMES:
-        (ROOT / f"{theme}_mode.svg").write_text(render(theme, art, info), encoding="utf-8")
+        (ROOT / f"{theme}_mode.svg").write_text(render(theme, info), encoding="utf-8")
 
 
 if __name__ == "__main__":

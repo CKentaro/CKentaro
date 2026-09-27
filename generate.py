@@ -18,7 +18,8 @@ UPTIME_SINCE = date(2022, 7, 1)
 RAMP = " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
 
 # Layout (px)
-PAD = 26
+# Transparent background, so the page (GitHub) color shows through.
+PAD = 6
 GAP = 30
 ART_CELL_W, ART_LINE_H, ART_FONT = 5.8, 11.6, 9.8
 INFO_CELL_W, INFO_LINE_H, INFO_FONT = 9.4, 19.5, 15.5
@@ -30,13 +31,11 @@ FONT_STACK = ("ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, "
 
 THEMES = {
     "dark": {
-        "bg": "#161b22", "border": "#30363d",
         "art1": "#3b3a5a", "art2": "#8d84c7", "art3": "#ebe7ff",
         "text": "#c9d1d9", "dim": "#4d5561",
         "key": "#d2a8ff", "value": "#a5d6ff", "accent": "#f2e56b",
     },
     "light": {
-        "bg": "#f6f8fa", "border": "#d0d7de",
         "art1": "#d6d3ea", "art2": "#8b80c4", "art3": "#3f3480",
         "text": "#24292f", "dim": "#b3bcc6",
         "key": "#8250df", "value": "#0a3069", "accent": "#9a6700",
@@ -173,7 +172,6 @@ text{{font-family:{FONT_STACK};white-space:pre}}
 .info{{font-size:{INFO_FONT}px}}
 {colors}
 </style>
-<rect x="0.5" y="0.5" width="{width - 1:.0f}" height="{height - 1:.0f}" rx="12" fill="{c['bg']}" stroke="{c['border']}"/>
 {chr(10).join(rows)}
 </svg>
 """

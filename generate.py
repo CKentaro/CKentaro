@@ -81,7 +81,6 @@ def build_info(today: date):
         ("blank",),
         ("section", "Contact"),
         ("kv", "Email.Personal", "cliffkentaro.shimada@gmail.com"),
-        ("kv", "Email.Work", "cliffkentaro.shimada@sansan.com"),
         ("kv", "LinkedIn", "Cliffkentaro Shimada"),
     ]
 

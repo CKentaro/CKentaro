@@ -1,11 +1,5 @@
-# 👋🏾Hi there!!&nbsp;&nbsp; I'm CKentarou.
-
-## 🚀 **About Me**
-🔭 **Currently Working On**  
-I am working as a mentor at a programming school, helping students learn coding and web development.  
-
-🌱 **Currently Learning**  
-I am learning web application frameworks, focusing on improving my skills in backend and frontend development.  
-
-## 🛠 **Skills & Technologies**  
-[![My Skills](https://skillicons.dev/icons?i=java,spring,python,ruby,rails,html,css,js,mysql,aws,)](https://skillicons.dev)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./dark_mode.svg">
+  <source media="(prefers-color-scheme: light)" srcset="./light_mode.svg">
+  <img alt="ckentaro@github: Software Engineer, Data Engineer. Python, TypeScript, Ruby, Go. Learning data engineering on Google Cloud." src="./dark_mode.svg">
+</picture>

@@ -62,7 +62,7 @@ def uptime(since: date, today: date) -> str:
 
 def build_info(today: date):
     return [
-        ("header", "ckentaro", "github"),
+        ("header", "CKentaro", "github"),
         ("kv", "OS", "macOS, iOS"),
         ("kv", "Uptime", uptime(UPTIME_SINCE, today)),
         ("kv", "Host", "Sansan, Inc. (joining Apr 2027)"),
